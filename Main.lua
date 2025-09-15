@@ -1,36 +1,30 @@
---https://docs.sirius.menu/rayfield
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "#Rust v1.16.1",
-   Icon = 0, -- Use 0 for no icon
+   Icon = 0,
    LoadingTitle = "Made by Weirdman2112",
    LoadingSubtitle = "Made with love",
-   ShowText = "Rayfield", -- for mobile users to unhide rayfield, change if you'd like
+   ShowText = "Rayfield",
    Theme = "Default",
-
    ToggleUIKeybind = "K",
-
    DisableRayfieldPrompts = true,
    DisableBuildWarnings = true,
-
    ConfigurationSaving = {
       Enabled = false,
       FolderName = nil,
       FileName = ""
    },
-
    Discord = {
-      Enabled = true,
+      Enabled = false,
       Invite = "https://pastefy.app/u93hg08J",
       RememberJoins = false
    },
-
    KeySystem = true,
    KeySettings = {
       Title = "Enter the key!",
       Subtitle = "Key System",
-      Note = "https://pastefy.app/u93hg08J",
+      Note = "Re-Enter Key",
       FileName = "Key",
       SaveKey = false,
       GrabKeyFromSite = false,
@@ -38,7 +32,7 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-local Tab = Window:CreateTab("Tab Example", 4483362458) -- Title, Image
+local Tab = Window:CreateTab("Tab Example", 4483362458)
 
 Rayfield:Notify({
    Title = "Notification",
@@ -50,7 +44,6 @@ Rayfield:Notify({
 local Button = Tab:CreateButton({
    Name = "Button Example",
    Callback = function()
-      print("button clicked")
    end,
 })
 
@@ -59,7 +52,6 @@ local Toggle = Tab:CreateToggle({
    CurrentValue = false,
    Flag = "Toggle1",
    Callback = function(Value)
-      print(Value)
    end,
 })
 
@@ -68,10 +60,6 @@ local ColorPicker = Tab:CreateColorPicker({
    Color = Color3.fromRGB(255,255,255),
    Flag = "ColorPicker1",
    Callback = function(Value)
-      local r = math.floor(Value.R * 255)
-      local g = math.floor(Value.G * 255)
-      local b = math.floor(Value.B * 255)
-      print("RGB:", r, g, b)
    end,
 })
 
@@ -83,7 +71,6 @@ local Slider = Tab:CreateSlider({
    CurrentValue = 10,
    Flag = "Slider1",
    Callback = function(Value)
-      print("Current Banana:", Value)
    end,
 })
 
@@ -94,8 +81,6 @@ local Input = Tab:CreateInput({
    RemoveTextAfterFocusLost = false,
    Flag = "Input1",
    Callback = function(Text)
-      -- Runs when input changes
-      print("Input text:", Text)
    end,
 })
 
@@ -106,8 +91,6 @@ local Dropdown = Tab:CreateDropdown({
    MultipleOptions = false,
    Flag = "Dropdown1",
    Callback = function(Options)
-      -- Runs when dropdown selection changes
-      print("Selected options:", table.concat(Options, ", "))
    end,
 })
 
@@ -117,9 +100,93 @@ local Keybind = Tab:CreateKeybind({
    HoldToInteract = false,
    Flag = "Keybind1",
    Callback = function(Keybind)
-      -- Runs when keybind is pressed or released
-      print("Keybind active:", Keybind)
    end,
 })
 
 local Label = Tab:CreateLabel("Label Example", "rewind")
+
+local OPGunDropdown = Tab:CreateDropdown({
+   Name = "Select OP Gun",
+   Options = {"EOKA"},
+   CurrentOption = {"EOKA"},
+   MultipleOptions = false,
+   Flag = "OPGunDropdown",
+   Callback = function(Option)
+   end,
+})
+
+local OPButton = Tab:CreateButton({
+   Name = "Use OP Gun",
+   Callback = function()
+      local GUNNAME = OPGunDropdown.CurrentOption[1]
+      local backpack = game:GetService("Players").LocalPlayer.Backpack
+
+      if backpack:FindFirstChild(GUNNAME) then
+         local gun = backpack[GUNNAME]
+         
+         if gun:FindFirstChild("ACS_Modulo") then
+            local acs = gun.ACS_Modulo
+            local variaveis = acs:FindFirstChild("Variaveis")
+            
+            if variaveis then
+               local settings = variaveis:FindFirstChild("Settings")
+               local suppressor = variaveis:FindFirstChild("Suppressor")
+               local ammo = variaveis:FindFirstChild("Ammo")
+               
+               if settings then
+                  local bull = require(settings)
+                  bull.Bullets = 100
+                  bull.ExplosiveHit = true
+                  bull.ExplosionDamage = 99999999
+                  bull.MinRecoilPower = 0
+                  bull.MaxRecoilPower = 0 
+                  bull.RecoilPunch = 0
+                  bull.RainbowMode = true
+                  bull.RecoilPowerStepAmount = 0
+                  bull.VRecoil = { 0, 0 }
+                  bull.HRecoil = { 0, 0 }
+                  bull.BDrop = 0
+                  bull.MinSpread = 50
+                  bull.MaxSpread = 50
+               end
+               
+               if suppressor then
+                  suppressor.Value = true
+               end
+               
+               if ammo then
+                  ammo.Value = math.huge
+               end
+               
+               Rayfield:Notify({
+                  Title = "Success",
+                  Content = "OP Gun settings applied for " .. GUNNAME,
+                  Duration = 5,
+                  Image = "check",
+               })
+            else
+               Rayfield:Notify({
+                  Title = "Error",
+                  Content = "Variaveis module not found",
+                  Duration = 5,
+                  Image = "error",
+               })
+            end
+         else
+            Rayfield:Notify({
+               Title = "Error",
+               Content = "ACS_Modulo not found",
+               Duration = 5,
+               Image = "error",
+            })
+         end
+      else
+         Rayfield:Notify({
+            Title = "Error",
+            Content = "Weapon " .. GUNNAME .. " not found in backpack",
+            Duration = 5,
+            Image = "error",
+         })
+      end
+   end,
+})
