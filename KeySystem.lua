@@ -19,3 +19,4 @@ local response = KeySystem:Init({
 })
 
 if not response or not KeyValid then return end
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Aisen11394/Rust/refs/heads/main/Main.lua"))()
