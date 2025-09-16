@@ -8,7 +8,7 @@ local response = KeySystem:Init({
 	Discord=nil, -- <string or nil> Button to join your discord server
 	SaveKey=false, -- <bool or nil> Just auto save key
 	Verify=function(key) -- <function> Verify is key valid
-		if key=="nrcjfq" then
+		if key=="dangbang" then
       KeyValid=true
 			return true
 		else
