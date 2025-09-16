@@ -107,7 +107,7 @@ local Label = Tab:CreateLabel("Label Example", "rewind")
 
 local OPGunDropdown = Tab:CreateDropdown({
    Name = "Select OP Gun",
-   Options = {"EOKA"},
+   Options = {"EOKA", "MP5", "P229", "REVOLVER", "RIFLE", "SKS", "THOMPSON", "AK47", "BOLT", "CROSSBOW", "D-B", "SHOTGUN", "AWM", "LR-300", "M249", "M39"},
    CurrentOption = {"EOKA"},
    MultipleOptions = false,
    Flag = "OPGunDropdown",
